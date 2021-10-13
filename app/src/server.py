@@ -1,3 +1,4 @@
+# Taken from an excecise in docker.com on how to develop Python with Docker
 from flask import Flask
 import ptvsd
 
