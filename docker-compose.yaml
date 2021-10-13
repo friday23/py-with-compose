@@ -1,0 +1,43 @@
+version: "3.7"
+services:
+  db:
+    image: mysql:8.0.19
+    command: '--default-authentication-plugin=mysql_native_password'
+    container_name: p1-db
+    hostname: host-db
+    restart: always
+    environment:
+      - MYSQL_DATABASE=example
+      - MYSQL_ROOT_PASSWORD=password
+    networks:
+      - backend-network
+
+  app:
+    build: app
+    container_name: p1-app
+    hostname: host-app
+    restart: always
+    ports:
+      - 5000:5000
+        # port for remote debugging
+      - 5678:5678
+    networks:
+      - backend-network
+      - frontend-network
+    volumes:
+      - ./app/src:/code
+
+
+  web:
+    build: web
+    container_name: p1-web
+    hostname: host-web
+    restart: always
+    ports:
+      - 8080:80
+    networks:
+      - frontend-network
+
+networks:
+  frontend-network:
+  backend-network:
